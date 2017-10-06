@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <SE_ProfilerSeSolrsearch>
+            <version>1.0.0</version>
+        </SE_ProfilerSeSolrsearch>
+    </modules>
+    <global>
+        <models>
+            <se_profilersesolrsearch>
+                <class>SE_Profilersesolrsearch_Model</class>
+            </se_profilersesolrsearch>
+            <solrsearch_resource>
+                <rewrite>
+                    <solr>SE_ProfilerSeSolrsearch_Model_Resource_Solr</solr>
+                </rewrite>
+            </solrsearch_resource>
+        </models>
+    </global>
+</config>

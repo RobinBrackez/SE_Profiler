@@ -1,0 +1,60 @@
+<?php $queries = $this->getQueries(); ?>
+<table>
+    <tr>
+        <th width="30%">Total time</th>
+        <td><?= $queries["totalTime"] ?>ms</td>
+    </tr>
+    <tr>
+        <th>Total nr of queries</th>
+        <td><?= count($queries["profilers"]) ?></td>
+    </tr>
+    <tr>
+        <th>Average time/queries</th>
+        <td><?= $queries["averageTime"] ?>ms</td>
+    </tr>
+    <tr>
+        <th>Filter</th>
+        <td>On text: <input type="text" id="sql-filter" />
+            <br>Or:
+            <input type="button" value="Filter on id" id="sql-id-filter"
+                   data-id="<?= $this->getId() ?>"
+            />
+            <?php if ($this->hasProduct()): ?>
+                <input type="button" value="Filter on sku" id="sql-sku-filter"
+                       data-sku="<?= $this->getProduct()->getSku() ?>"
+                />
+            <?php endif;?>
+        </td>
+    </tr>
+</table>
+<?php if (count($queries["profilers"]) > 0): ?>
+    <table id="sql-table">
+        <tr>
+            <th>Time</th>
+            <th>Query</th>
+        </tr>
+        <?php foreach($queries["profilers"] as $query): ?>
+            <tr class="<?= $query->getQueryType() ?>">
+                <td class="profiler-table-first">
+                    <?php if ($query->isSlow) : ?>
+                        <b>
+                            <?= $query->msTime; ?> ms
+                        </b>
+                    <?php else: ?>
+                        <?= $query->msTime; ?>
+                    <?php endif; ?>
+                    <br>
+                    <input type="button" data-sql="<?= $query->fullQuery; ?>" class="execute-sql" value="Execute">
+                </td>
+                <td class="query-info">
+                    <div class="query"><?= $query->fullQuery; ?></div>
+                    <div class="query-result"></div>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <span class="profiler-empty">No SQL queries were found. Make sure the profiler
+                    is enabled. In your local.xml add &lt;profiler&gt;1&lt;/profiler&gt; to your connection.
+                    Set Config > Developer > Debugger > to "Yes".</span>
+<?php endif; ?>

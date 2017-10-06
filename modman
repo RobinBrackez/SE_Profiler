@@ -1,0 +1,16 @@
+app/etc/modules/SE_Profiler.xml				            app/etc/modules/SE_Profiler.xml
+app/etc/modules/SE_ProfilerSeSolrsearch.xml				            app/etc/modules/SE_ProfilerSeSolrsearch.xml
+app/etc/modules/SE_ProfilerSparkow.xml				            app/etc/modules/SE_ProfilerSparkow.xml
+app/code/community/SE/Profiler/				            app/code/community/SE/Profiler/
+app/code/community/SE/ProfilerSeSolrsearch/				            app/code/community/SE/ProfilerSeSolrsearch/
+app/code/community/SE/ProfilerSparkow/				            app/code/community/SE/ProfilerSparkow/
+skin/frontend/base/default/se_profiler/		        skin/frontend/base/default/se_profiler/
+skin/frontend/base/default/se_profiler/		        skin/frontend/default/default/se_profiler/
+skin/frontend/base/default/se_profiler/		        skin/adminhtml/default/default/se_profiler/
+js/se_profiler		                                js/se_profiler/
+app/design/frontend/base/default/template/se/profiler/   app/design/frontend/base/default/template/se/profiler/
+app/design/frontend/base/default/template/se/profiler/   app/design/adminhtml/default/default/template/se/profiler/
+app/design/frontend/base/default/template/se/profiler/   app/design/adminhtml/base/default/template/se/profiler/
+app/code/community/Zend/Log.php				            app/code/community/Zend/Log.php
+app/code/community/Zend/Cache/Core.php				            app/code/community/Zend/Cache/Core.php
+app/code/community/Varien/Http/Adapter				            app/code/community/Varien/Http/Adapter

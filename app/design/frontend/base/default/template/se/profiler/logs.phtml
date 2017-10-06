@@ -1,0 +1,16 @@
+<table>
+    <tr>
+        <th>Level</th>
+        <th>Message</th>
+    </tr>
+    <?php foreach($this->getLogs() as $log): ?>
+        <tr>
+            <td>
+                <?= $log["level"]; ?>
+            </td>
+            <td>
+                <?= $log["message"]; ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

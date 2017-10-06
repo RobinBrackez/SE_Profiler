@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+     <modules>
+        <SE_ProfilerSeSolrsearch>
+            <active>false</active>
+            <codePool>community</codePool>
+            <depends>
+                <!--<SE_Solrsearch />-->
+                <SE_Profiler />
+            </depends>
+        </SE_ProfilerSeSolrsearch>
+     </modules>
+</config>

@@ -1,0 +1,243 @@
+<div class="profiler">
+    <div class="profiler-window">
+        <div class="profiler-content-area">
+            <div class="profiler-tab-pane profiler-table profiler-log">
+                <?php if(count($this->getLogs())> 0): ?>
+                    <table>
+                        <tr>
+                            <th>Logfile</th>
+                            <th>Message</th>
+                        </tr>
+                        <?php foreach($this->getLogs() as $logName => $logs): ?>
+                            <?php foreach($logs as $log): ?>
+                                <tr>
+                                    <td class="profiler-table-first">
+                                        <?= $logName; ?>
+                                    </td>
+                                    <td>
+                                        <?= $log; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </table>
+                <?php else: ?>
+                    <span class="profiler-empty">There are no log entries.</span>
+                <?php endif; ?>
+            </div>
+
+            <div class="profiler-tab-pane profiler-table profiler-sql">
+                <?php $queries = $this->getQueries(); ?>
+                <?php if (count($queries) > 0): ?>
+                <table>
+                    <tr>
+                        <th width="30%">Total time</th>
+                        <td><?= $queries["totalTime"] ?>ms</td>
+                    </tr>
+                    <tr>
+                        <th>Total nr of queries</th>
+                        <td><?= count($queries["profilers"]) ?></td>
+                    </tr>
+                    <tr>
+                        <th>Average time/queries</th>
+                        <td><?= $queries["averageTime"] ?>ms</td>
+                    </tr>
+                    <tr>
+                        <th>Filter</th>
+                        <td>On text: <input type="text" id="sql-filter" />
+                            <br>Or:
+                            <input type="button" value="Filter on id" id="sql-id-filter"
+                                   data-id="<?= $this->getId() ?>"
+                            />
+                            <?php if ($this->hasProduct()): ?>
+                                <input type="button" value="Filter on sku" id="sql-sku-filter"
+                                       data-sku="<?= $this->getProduct()->getSku() ?>"
+                                />
+                            <?php endif;?>
+                        </td>
+                    </tr>
+                </table>
+                <?php if (count($queries["profilers"]) > 0): ?>
+                    <table id="sql-table">
+                        <tr>
+                            <th>Time</th>
+                            <th>Query</th>
+                        </tr>
+                        <?php foreach($queries["profilers"] as $query): ?>
+                            <tr class="<?= $query->getQueryType() ?>">
+                                <td class="profiler-table-first">
+                                    <?php if ($query->isSlow) : ?>
+                                        <b>
+                                            <?= $query->msTime; ?> ms
+                                        </b>
+                                    <?php else: ?>
+                                        <?= $query->msTime; ?>
+                                    <?php endif; ?>
+                                    <br>
+                                    <input type="button" data-sql="<?= $query->fullQuery; ?>" class="execute-sql" value="Execute">
+                                </td>
+                                <td class="query-info">
+                                    <div class="query"><?= $query->fullQuery; ?></div>
+                                    <div class="query-result"></div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                <?php else: ?>
+                    <span class="profiler-empty">No SQL queries were found. Make sure the profiler
+                    is enabled. In your local.xml add &lt;profiler&gt;1&lt;/profiler&gt; to your connection.
+                    Set Config > Developer > Debugger > to "Yes".</span>
+                <?php endif; ?>
+                <?php else: ?>
+                    <span class="profiler-empty">No SQL queries were found. Make sure the profiler
+                    is enabled. In your local.xml add &lt;profiler&gt;1&lt;/profiler&gt; to your connection.
+                    Set Config > Developer > Debugger > to "Yes".</span>
+                <?php endif; ?>
+            </div>
+
+            <div class="profiler-tab-pane profiler-table profiler-checkpoints">
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        // start, count, sum (time denk ik), realmem, emalloc, realmem_start, emalloc_start
+                        <th>Start</th>
+                        <th>Count</th>
+                        <th>Sum</th>
+                        <th>Real memory</th>
+                        <th>Allocate size bytes of memory</th>
+                        <th>Real memory start</th>
+                        <th>Allocate size bytes of memory start</th>
+                    </tr>
+                    <?php foreach($this->getTimers() as $name => $timer): ?>
+                        <?php if (array_key_exists('realmem_start', $timer)) : ?>
+                            <tr>
+                                <td class="profiler-table-first">
+                                    <?= $name; ?>
+                                </td>
+                                <td><pre><?= $timer['start'] ?></pre></td>
+                                <td><pre><?= $timer['count'] ?></pre></td>
+                                <td><pre><?= $timer['sum'] ?></pre></td>
+                                <td><pre><?= $timer['realmem'] ?></pre></td>
+                                <td><pre><?= $timer['emalloc'] ?></pre></td>
+                                <td><pre><?= $timer['realmem_start'] ?></pre></td>
+                                <td><pre><?= $timer['emalloc_start'] ?>ms</pre></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        <?php endif; ?>
+
+                    <?php endforeach; ?>
+                </table>
+            </div>
+            <div class="profiler-tab-pane profiler-table profiler-filecount">
+                <table>
+                    <tr>
+                        <th>File</th>
+                        <th>Size</th>
+                    </tr>
+                    <?php foreach($this->getIncludedFiles() as $file): ?>
+                        <tr>
+                            <td class="profiler-table-first-wide"><?= $file['filePath']; ?></td>
+                            <td><pre><?= $file['size']?></pre></td>
+                            <td>&nbsp;</td>
+                        </tr>
+
+                    <?php endforeach; ?>
+                </table>
+            </div>
+            <div class="profiler-tab-pane profiler-table profiler-magento-object">
+                <table>
+                    <?php if ($this->hasProduct()): ?>
+                        <tr>
+                            <th>Type</th>
+                            <td>Product</td>
+                        </tr>
+                        <tr>
+                            <th>ID</th>
+                            <td><?= $this->getProduct()->getId() ?></td>
+                        </tr>
+                        <tr>
+                            <th>SKU</th>
+                            <td><?= $this->getProduct()->getSku() ?></td>
+                        </tr>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <td><a href="<?= $this->getProductEditLink() ?>">Edit in backend</a></td>
+                        </tr>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <td><a href="<?= $this->getProductFrontendLink() ?>">View in frontend</a></td>
+                        </tr>
+                        <?php $data = $this->getProduct()->getData();
+                        ksort($data);
+                        foreach($data as $key => $value): ?>
+                            <?php if ($value != ''): ?>
+                                <tr>
+                                    <th><?= $key ?></th>
+                                    <td>
+                                        <?= (is_string($value)?  $value : '[no string]')
+                                        //                                            is_array($value) ? substr(print_r($value), 0, 200) : '[no string]') ?>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    <?php if ($this->hasCategory()): ?>
+                        <tr>
+                            <th>Type</th>
+                            <td>Category</td>
+                        </tr>
+                        <tr>
+                            <th>ID</th>
+                            <td><?= $this->getCategory()->getId() ?></td>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <td><?= $this->getCategory()->getName() ?></td>
+                        </tr>
+                        <tr>
+                            <th>Display mode</th>
+                            <td><?= $this->getCategory()->getDisplayMode() ?></td>
+                        </tr>
+                        <tr>
+                            <th>Page layout</th>
+                            <td><?= $this->getCategory()->getPageLayout() ?></td>
+                        </tr>
+                        <tr>
+                            <th>Is Anchor</th>
+                            <td><?= $this->getCategory()->getIsAnchor() ?></td>
+                        </tr>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <td><a href="<?= $this->getCategoryEditLink() ?>">Edit in backend</a></td>
+                        </tr>
+                    <?php endif; ?>
+                    <tr>
+                        <th>Store view</th>
+                        <td><?= $this->getStore()->getName() ?> (<?= $this->getStore()->getId() ?>)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <ul id="profiler-open-tabs" class="profiler-tabs">
+        <li><a data-profiler-tab="profiler-log" class="profiler-tab" href="#">Log <span class="profiler-count"><?= $this->getNumberOfLogs(); ?></span></a></li>
+        <li>
+            <a data-profiler-tab="profiler-sql" class="profiler-tab" href="#">SQL
+                <span class="profiler-count"><?= isset($queries["profilers"]) ? count($queries["profilers"]) : 0; ?></span>
+            </a>
+        </li>
+        <li><a class="profiler-tab" data-profiler-tab="profiler-checkpoints">Time <span class="profiler-count"><?= $this->getLoadTime(); ?>ms</span></a></li>
+        <li><a class="profiler-tab">Memory <span class="profiler-count"><?= $this->getMemoryUsage(); ?> (<?= $this->getMemoryPeak(); ?>)</span></a></li>
+        <li><a class="profiler-tab" data-profiler-tab="profiler-filecount">Files <span class="profiler-count"><?= count($this->getIncludedFiles()); ?></span></a></li>
+        <li><a class="profiler-tab" data-profiler-tab="profiler-magento-object"><?= $this->getMainObjectType() ?> object</a></li>
+        <li class="profiler-tab-right"><a id="profiler-hide" href="#">&#8614;</a></li>
+        <li class="profiler-tab-right"><a id="profiler-close" href="#">&times;</a></li>
+        <li class="profiler-tab-right"><a id="profiler-ip" href="#"><?= Mage::getConfig()->getResourceConnectionConfig('default_setup')->dbname ?></a></li>
+        <li class="profiler-tab-right"><a id="profiler-ip" href="#"><?= $_SERVER["SERVER_ADDR"] ?></a></li>
+    </ul>
+
+    <ul id="profiler-closed-tabs" class="profiler-tabs">
+        <li><a id="profiler-show" href="#">&#8612;</a></li>
+    </ul>
+</div>

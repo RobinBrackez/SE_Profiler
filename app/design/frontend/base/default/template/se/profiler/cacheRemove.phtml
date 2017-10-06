@@ -1,0 +1,11 @@
+<table>
+    <?php $items = $this->getCacheRemoves();
+    foreach($items as $key): ?>
+        <tr>
+            <th>Removed</th>
+            <td>
+                <?= $key ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

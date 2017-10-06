@@ -1,0 +1,55 @@
+
+<div class="profiler-tab-pane profiler-table profiler-curls">
+    <table>
+        <?php $items = $this->getCurls();
+        foreach($items as $key => $value): ?>
+            <tr>
+                <td width="25%">
+                    <b>Curl
+                        <?php if (is_string($key) && substr($key, 0, 8) !== "Resource"): ?>
+                            (<a href="<?= $key ?>">full link</a>)
+                        <?php elseif (isset($value["options"])): ?>
+                            <?php $key = $value["options"] ?>
+                        <?php endif; ?>
+                    </b>
+                    <?php if (is_array($key)): ?>
+                        <?php $key = implode("&", array_filter($key)); ?>
+                    <?php endif; ?>
+                    <?php $keys = explode('&', $key); ?>
+                    <?php foreach($keys as $stuk): ?>
+                        <br><?= urldecode($stuk); ?>
+                    <?php endforeach;; ?>
+                </td>
+                <td>
+                    <?php if (isset($value['response']) && is_array($value['response']) && array_key_exists("docs", $value['response'])
+                        && isset($value['response']['docs'][0])): ?>
+                        <table>
+                            <?php foreach ($value['response']['docs'][0] as $responseKey => $responseValue): ?>
+                                <tr>
+                                    <th><?= $responseKey ?></th>
+                                    <td>
+                                        <?php if (is_array($responseValue)): ?>
+                                            <?= $responseValue[0] ?>
+                                        <?php else: ?>
+                                            <?= $responseValue ?>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    <?php elseif (isset($value['response']) && is_string($value['response'])): ?>
+                        <table>
+                            <tr>
+                                <td>
+                                    <pre>
+                                        <?= $value['response'] ?>
+                                    </pre>
+                                </td>
+                            </tr>
+                        </table>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+</div>

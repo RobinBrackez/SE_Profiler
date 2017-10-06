@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<config>
+
+    <modules>
+        <SE_Profiler>
+            <version>0.0.6</version>
+        </SE_Profiler>
+    </modules>
+
+    <global>
+
+        <models>
+            <se_profiler>
+                <class>SE_Profiler_Model</class>
+            </se_profiler>
+        </models>
+
+        <events>
+            <controller_action_layout_render_before>
+                <observers>
+                    <se_profiler>
+                        <type>singleton</type>
+                        <class>SE_Profiler_Model_Observer</class>
+                        <method>frontInitBefore</method>
+                    </se_profiler>
+                </observers>
+            </controller_action_layout_render_before>
+            <http_response_send_before>
+                <observers>
+                    <se_profiler>
+                        <type>singleton</type>
+                        <class>SE_Profiler_Model_Observer</class>
+                        <method>alterResponse</method>
+                    </se_profiler>
+                </observers>
+            </http_response_send_before>
+            <controller_action_postdispatch_catalog_product_view>
+                <observers>
+                    <se_profiler>
+                        <class>SE_Profiler_Model_Observer</class>
+                        <method>setProduct</method>
+                    </se_profiler>
+                </observers>
+            </controller_action_postdispatch_catalog_product_view>
+            <catalog_product_load_after>
+                <observers>
+                    <se_profiler>
+                        <class>SE_Profiler_Model_Observer</class>
+                        <method>setProduct</method>
+                    </se_profiler>
+                </observers>
+            </catalog_product_load_after>
+            <controller_action_postdispatch_catalog_category_view>
+                <observers>
+                    <se_profiler>
+                        <class>SE_Profiler_Model_Observer</class>
+                        <method>setCategory</method>
+                    </se_profiler>
+                </observers>
+            </controller_action_postdispatch_catalog_category_view>
+            <controller_action_postdispatch_checkout_cart_index>
+                <observers>
+                    <se_profiler>
+                        <class>SE_Profiler_Model_Observer</class>
+                        <method>setCart</method>
+                    </se_profiler>
+                </observers>
+            </controller_action_postdispatch_checkout_cart_index>
+        </events>
+
+        <blocks>
+            <se_profiler>
+                <class>SE_Profiler_Block</class>
+            </se_profiler>
+        </blocks>
+    </global>
+
+    <frontend>
+        <routers>
+            <profiler>
+                <use>standard</use>
+                <args>
+                    <module>SE_Profiler</module>
+                    <frontName>profiler</frontName>
+                </args>
+            </profiler>
+        </routers>
+    </frontend>
+
+    <!--<phpunit>-->
+        <!--<suite>-->
+            <!--<modules>-->
+                <!--<SE_Profiler/>-->
+            <!--</modules>-->
+        <!--</suite>-->
+    <!--</phpunit>-->
+
+</config>

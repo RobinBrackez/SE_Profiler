@@ -1,0 +1,23 @@
+<table>
+    <?php if ($this->hasProduct()): ?>
+        <tr>
+            <th>Stock</th>
+            <td>
+                <input type="button" class="change-stock" data-in-stock="1" data-id="<?= $this->getProduct()->getId() ?>"
+                       value="Set product in stock" />
+                <input type="button" class="change-stock" data-in-stock="0" data-id="<?= $this->getProduct()->getId() ?>"
+                       value="Set product out of stock" />
+            </td>
+        </tr>
+    <?php endif; ?>
+    <tr>
+        <th>Cart</th>
+        <td>
+            <input type="button" id="fill-cart" value="Fill cart with random products" />
+            <input type="button" id="empty-cart" value="Empty cart" />
+        </td>
+    </tr>
+</table>
+<script>
+    var seProfilerBaseUrl = "<?= Mage::getBaseUrl() ?>";
+</script>

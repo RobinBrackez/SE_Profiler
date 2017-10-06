@@ -1,0 +1,71 @@
+<table>
+    <?php if ($this->hasCategory()): ?>
+        <tr>
+            <th>Type</th>
+            <td>Category</td>
+        </tr>
+        <tr>
+            <th>ID</th>
+            <td><?= $this->getCategory()->getId() ?></td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td><?= $this->getCategory()->getName() ?></td>
+        </tr>
+        <tr>
+            <th>Display mode</th>
+            <td><?= $this->getCategory()->getDisplayMode() ?></td>
+        </tr>
+        <tr>
+            <th>Page layout</th>
+            <td><?= $this->getCategory()->getPageLayout() ?></td>
+        </tr>
+        <tr>
+            <th>Is Anchor</th>
+            <td><?= $this->getCategory()->getIsAnchor() ?></td>
+        </tr>
+        <tr>
+            <th>&nbsp;</th>
+            <td><a href="<?= $this->getCategoryEditLink() ?>">Edit in backend</a></td>
+        </tr>
+    <?php elseif ($this->hasProduct()): ?>
+        <tr>
+            <th>Type</th>
+            <td>Product</td>
+        </tr>
+        <tr>
+            <th>ID</th>
+            <td><?= $this->getProduct()->getId() ?></td>
+        </tr>
+        <tr>
+            <th>SKU</th>
+            <td><?= $this->getProduct()->getSku() ?></td>
+        </tr>
+        <tr>
+            <th>&nbsp;</th>
+            <td><a href="<?= $this->getProductEditLink() ?>">Edit in backend</a></td>
+        </tr>
+        <?php foreach ($this->getProductFrontendLinks() as $storeName => $link): ?>
+            <tr>
+                <th>Frontend link </th>
+                <td><b><?= $storeName ?></b> <a href="<?= $link['seo'] ?>">by urlkey</a> |  <a href="<?= $link['by_id'] ?>">by id</a></td>
+            </tr>
+        <?php endforeach; ?>
+        <?php $data = $this->getProduct()->getData();
+        ksort($data);
+        foreach($data as $key => $value): ?>
+            <?php if ($value != ''): ?>
+                <tr>
+                    <th><?= $key ?></th>
+                    <td>
+                        <?= (is_string($value)?  $value : '[no string]') ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
+    <tr>
+        <th>Store view</th>
+        <td><?= $this->getStore()->getName() ?> (<?= $this->getStore()->getId() ?>)</td>
+    </tr>
+</table>

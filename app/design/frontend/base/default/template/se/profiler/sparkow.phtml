@@ -1,0 +1,13 @@
+
+<div class="profiler-tab-pane profiler-table profiler-sparkow">
+    <table>
+        <?php foreach($this->getSparkowCalls() as $url => $result): ?>
+            <tr valign="top">
+                <th>URL:</th>
+                <td>
+                    <a href="<?= $url ?>" target="_blank"> <?= $url ?></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+</div>

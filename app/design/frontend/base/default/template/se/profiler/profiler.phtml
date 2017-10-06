@@ -1,0 +1,99 @@
+<div class="profiler">
+    <div class="profiler-window">
+        <div class="profiler-content-area">
+            <div class="profiler-tab-pane profiler-table profiler-checkpoints">
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Start</th>
+                        <th>Count</th>
+                        <th>Sum</th>
+                        <th>Real memory</th>
+                        <th>Allocate size bytes of memory</th>
+                        <th>Real memory start</th>
+                        <th>Allocate size bytes of memory start</th>
+                    </tr>
+                    <?php foreach($this->getTimers() as $name => $timer): ?>
+                        <?php if (array_key_exists('realmem_start', $timer)) : ?>
+                            <tr>
+                                <td class="profiler-table-first">
+                                    <?= $name; ?>
+                                </td>
+                                <td><pre><?= $timer['start'] ?></pre></td>
+                                <td><pre><?= $timer['count'] ?></pre></td>
+                                <td><pre><?= $timer['sum'] ?></pre></td>
+                                <td><pre><?= $timer['realmem'] ?></pre></td>
+                                <td><pre><?= $timer['emalloc'] ?></pre></td>
+                                <td><pre><?= $timer['realmem_start'] ?></pre></td>
+                                <td><pre><?= $timer['emalloc_start'] ?>ms</pre></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        <?php endif; ?>
+
+                    <?php endforeach; ?>
+                </table>
+            </div>
+
+            <?php foreach ($this->getTabs() as $alias => $className) : ?>
+                <?php $childBlock = $this->getChild($alias); ?>
+                <?php if ($childBlock->{"show$alias"}()): ?>
+                    <div class="profiler-tab-pane profiler-table profiler-<?= $childBlock->getElementName(); ?>">
+                        <?= $childBlock->toHtml(); ?>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+
+            <?php if ($this->hasQuote()): ?>
+                <div class="profiler-tab-pane profiler-table profiler-magento-cart">
+                    <table>
+                        <tr>
+                            <th>Quote Id</th>
+                            <td><?= $this->getQuote()->getId() ?></td>
+                        </tr>
+
+                        <?php $items = $this->getQuote()->getAllItems();
+                        foreach($items as $item): ?>
+                            <tr>
+                                <th>Item <?= $item->getId() ?>: </th>
+                                <td>
+                                    <?= $item->getProduct()->getName() ?>
+                                    (<?= $item->getProduct()->getPrice() ?>)
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <ul id="profiler-open-tabs" class="profiler-tabs">
+        <li><a class="profiler-tab" data-profiler-tab="profiler-checkpoints">Memory <span class="profiler-count"><?= $this->getMemoryUsage(); ?> MB</span></a></li>
+
+        <?php foreach ($this->getTabs() as $alias => $className) : ?>
+            <?php $childBlock = $this->getChild($alias); ?>
+            <?php if ($childBlock->{"show$alias"}()): ?>
+                <li>
+                    <a class="profiler-tab" data-profiler-tab="profiler-<?= $childBlock->getElementName() ?>">
+                        <?= $childBlock->getTabText() ?>
+                        <?php if ($childBlock->getTabSubtext()): ?>
+                            <span class="profiler-count"><?= $childBlock->getTabSubtext(); ?></span>
+                        <?php endif; ?>
+                    </a>
+                </li>
+            <?php endif ?>
+        <?php endforeach; ?>
+        <?php if ($this->hasQuote()): ?>
+        <li><a class="profiler-tab" data-profiler-tab="profiler-magento-cart">cart (<?= count($this->getQuote()->getAllItems()); ?>)</a></li>
+        <?php endif; ?>
+        <li class="profiler-tab-right"><a id="profiler-hide" href="#">&#8614;</a></li>
+        <li class="profiler-tab-right"><a id="profiler-close" href="#">&times;</a></li>
+        <li class="profiler-tab-right"><a id="profiler-zoom" href="#">&#8645;</a></li>
+        <li class="profiler-tab-right"><a id="profiler-ip" href="#" title="Database server: <?= Mage::getConfig()->getResourceConnectionConfig('default_setup')->host; ?>"><?= Mage::getConfig()->getResourceConnectionConfig('default_setup')->dbname ?></a></li>
+        <li class="profiler-tab-right"><a id="profiler-ip" href="#"><?= $_SERVER["SERVER_ADDR"] ?></a></li>
+    </ul>
+
+    <ul id="profiler-closed-tabs" class="profiler-tabs">
+        <li><a id="profiler-show" href="#">&#8612;</a></li>
+    </ul>
+</div>

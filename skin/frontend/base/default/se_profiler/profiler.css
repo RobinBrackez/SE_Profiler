@@ -1,0 +1,275 @@
+/**
+ * This css is 83% copy paste of ANBU profiler for Laravel 3
+ */
+
+.profiler * {
+	color: black;
+	border: 0;
+}
+
+.profiler button,
+.profiler input {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000;
+	padding: 2px;
+	font-size: 1em;
+}
+
+.profiler #sql-filter {
+	margin-bottom: 10px;
+}
+
+.profiler input.failed,
+.profiler button.failed {
+	background-color: darkred;
+	color: #eeeeee;
+}
+
+.profiler .query-result th {
+	cursor: pointer;
+}
+
+.profiler
+{
+	font-family:Helvetica, "Helvetica Neue", Arial, sans-serif !important;
+	font-size:14px !important;
+	background-color:#222 !important;
+	position:fixed !important;
+	bottom:0 !important;
+	right:0 !important;
+	width:100%;
+	z-index: 99999994 !important;
+	color: #000;
+	text-align: left;
+}
+
+.profiler-tabs
+{
+	margin:0 !important;
+	padding:0 !important;
+	overflow:hidden !important;
+}
+
+.profiler-tab {
+	cursor: pointer;
+}
+
+.profiler-hidden .profiler-tabs
+{
+	background-image:none;
+}
+
+.profiler-tabs li
+{
+	display:inline;
+	line-height:1em !important;
+}
+
+.profiler-tabs a, .profiler-tabs a:visited
+{
+	color:#aaa !important;
+	text-transform:uppercase !important;
+	font-weight:bold !important;
+	display:inline-block;
+	text-decoration:none !important;
+	font-size:0.8em !important;
+	padding: 0.8em 2em 0.7em 2em !important;
+	-webkit-transition-property:color, background-color;
+	-webkit-transition-duration: 0.7s, 0.2s;
+	-webkit-transition-timing-function: ease-in, ease-in;
+	-moz-transition-property:color, background-color;
+	-moz-transition-duration: 0.7s, 0.2s;
+	-moz-transition-timing-function: ease-in, ease-in;
+	-ms-transition-property:color, background-color;
+	-ms-transition-duration: 0.7s, 0.2s;
+	-ms-transition-timing-function: ease-in, ease-in;
+	-o-transition-property:color, background-color;
+	-o-transition-duration: 0.7s, 0.2s;
+	-o-transition-timing-function: ease-in, ease-in;
+	transition-property:color, background-color;
+	transition-duration: 0.7s, 0.2s;
+	transition-timing-function: ease-in, ease-in;
+}
+
+#profiler-closed-tabs a, #profiler-closed-tabs a:visited
+{
+	padding: 0.85em 1.2em 0.85em 1.2em !important;
+}
+
+.profiler-tabs a:hover
+{
+	background-color:#333 !important;
+	color:#fff !important;
+}
+
+.profiler-tabs a.profiler-active-tab
+{
+	color:#fff !important;
+	background-color:#333 !important;
+}
+
+.profiler a:focus
+{
+	outline:none !important;
+}
+
+.profiler-tabs a:active
+{
+	background-color:#111 !important;
+}
+
+.profiler-tabs li.profiler-tab-right
+{
+	float:right !important;
+}
+
+.profiler-tabs li.profiler-tab-right a, .profiler-tabs li.profiler-tab-right a:visited
+{
+	padding: 0.86em 2em 0.7em 2em !important;
+}
+
+#profiler-closed-tabs
+{
+	display:none;
+}
+
+.profiler a {
+	color: #1D5C83;
+}
+
+
+.profiler-window
+{
+	display:none;
+}
+
+.profiler-content-area
+{
+	background-color: #fff !important;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#ffffff));
+	background-image: -webkit-linear-gradient(top, #eeeeee, #ffffff);
+	background-image: -moz-linear-gradient(top, #eeeeee, #ffffff);
+	background-image: -ms-linear-gradient(top, #eeeeee, #ffffff);
+	background-image: -o-linear-gradient(top, #eeeeee, #ffffff);
+	background-image: linear-gradient(to bottom, #eeeeee, #ffffff);
+	height:28em;
+	margin-top:6px !important;
+	overflow-x:hidden !important;
+	overflow-y:auto !important;
+}
+
+.profiler-table table
+{
+	margin:0 !important;
+	padding:0 !important;
+	font-size:0.9em !important;
+	border:0 !important;
+	border-collapse:collapse !important;
+	width:100% !important;
+	background-color:#fff !important;
+}
+
+.profiler-table pre
+{
+	margin:0 !important;
+}
+
+.profiler-table tr
+{
+	border-bottom:1px solid #ccc !important;
+}
+
+.profiler-table tr:first-child
+{
+	border:0 !important;
+}
+
+.profiler-table th
+{
+	background-color:#555 !important;
+	color:#fff !important;
+	text-transform:uppercase !important;
+	vertical-align: top;
+}
+
+.profiler-table th, .profiler-table td
+{
+	text-align:left !important;
+	padding:0.4em 1em !important;
+	margin:0 !important;
+}
+
+.profiler-table td
+{
+	vertical-align:top !important;
+}
+
+.profiler-table-first
+{
+	background-color:#eee !important;
+	border-right:1px solid #ccc !important;
+	width:10% !important;
+}
+
+.profiler-table-first-wide
+{
+	background-color:#eee !important;
+	border-right:1px solid #ccc !important;
+	width:70% !important;
+}
+
+span.profiler-count
+{
+	text-transform: none !important;
+	margin-left:0.5em !important;
+	background-color:#555 !important;
+	display:inline-block !important;
+	padding:0.1em 0.5em 0.2em 0.5em !important;
+	color:#eee !important;
+	text-shadow:0 0 4px #000 !important;
+	-webkit-border-radius: 1px;
+	-moz-border-radius: 1px;
+	border-radius: 1px;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+
+}
+
+.profiler-empty
+{
+	display:block !important;
+	padding:1em !important;
+	text-align:center !important;
+	font-style:italic !important;
+	color:#ccc !important;
+	margin:1em !important;
+	text-shadow:0 1px 0px #fff !important;
+}
+
+
+/* hide panel-open elements, will become visible through profiler.start() */
+
+#profiler-close, #profiler-zoom, .profiler-tab-pane {
+	visibility: hidden;
+}
+
+#sql-table .query-info .query {
+	overflow-x: auto;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap !important;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+	font-family: "courier new";
+}
+
+.highlight {
+	background-color: #1394ca;
+	font-weight: bold;
+}
+
+.query-result {
+	overflow-x: auto;
+	white-space: nowrap;
+	width: 1200px;
+}

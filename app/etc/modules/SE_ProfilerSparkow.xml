@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+     <modules>
+        <SE_ProfilerSparkow>
+            <active>false</active>
+            <codePool>community</codePool>
+            <depends>
+                <!--<Veritas_Sparkow />-->
+                <SE_Profiler />
+            </depends>
+        </SE_ProfilerSparkow>
+     </modules>
+</config>

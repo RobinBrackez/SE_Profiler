@@ -1,0 +1,11 @@
+<table>
+    <?php $items = $this->getCacheSaves();
+    foreach($items as $key => $value): ?>
+        <tr>
+            <th>Save <?= $key ?>: </th>
+            <td>
+                <pre><?= substr(htmlentities($value), 0, 1000); ?></pre>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
