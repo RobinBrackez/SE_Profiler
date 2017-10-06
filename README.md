@@ -9,12 +9,14 @@ consume a few minutes of your time.
 Features:
 * list all executed queries + execute the resultset of each SELECT-query.
 * detailed category/product information: sku, id, storeview, link to edit it in the backend
-* show all observers that were executed
 * list what's logged during the request
 * show database/ip
 * show solr data
-* front end links on backend product pages
-* show cached data (loads, writes and erased)
+* front end links to products on backend product pages
+* show cached data (loads, writes and removals)
+* buttons to set current product in/out stock, fill/empty cart
+* show all observers that were executed
+* show cart content with id's
 
 It is only meant to be used in development environments, **not in production**, not in staging. 
 
@@ -46,43 +48,27 @@ You should only apply these settings in dev-environment (such as on your local m
 this on production. (eg: enabling symlinks is a security vulnerability)
 
 System > Configuration > Developer > Template Settings > 
-Allow Symlinks: enable.
-Allow ips: blanc
-Enable profiler: yes
+* Allow Symlinks: enable.
+* Allow ips: leave empty
+* Enable profiler: yes
 
 To see accurate product info, **full page cache** must be turned **off**. This is because we really on Mage::registry('current_product')
-and that only works without full page cache (or just the first page load).
+and that only works without full page cache (or just the first page load). 
 
-After this:
-magerun c:f
+If you get this error:
 
-## Conflicts with Aoe_Profiler
+- Warning: include(): Filename cannot be empty  in app/code/core/Mage/Core/Block/Template.php on line 241
 
-Error: "Disable profiler first"
-modman remove Aoe_Profiler
-magerun c:f
+It means you must enable symlinks.
 
-Warning: include(): Filename cannot be empty  in app/code/core/Mage/Core/Block/Template.php on line 241
-=> enable symlinks
-
-
-in local.xml:
+in local.xml make sure <profiler> has value 1. Otherwise the sql profiler won't work.
 
         <resources>
-            <db>
-                <table_prefix><![CDATA[mage_]]></table_prefix>
-            </db>
             <default_setup>
                 <connection>
                     <profiler>1</profiler
 
-SE_Profiler.xml
-
-    <?xml version="1.0"?>
-    <config>
-        <modules>
-            <SE_Profiler>
-                <active>true</active>
+Clear cache after this
                 
 ## What if it doesn't work?
 
@@ -99,7 +85,5 @@ If the module SE_Solrsearch exists, edit the SE_ProfilerSeSolrSearch.xml file an
 ## Credits
 
 I stole code (actually, the entire toolbar layout) from the Laravel 3 profiler project.
-
-I stole some code from AOE_Profiler.
 
 I took various bits from StackOverflow.
