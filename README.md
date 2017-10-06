@@ -30,17 +30,34 @@ It shows plenty of information to potential hackers. (it could in fact be seen a
 Install modman if not yet installed:
 
 1) install modman (any folder will do)
-bash < <(wget -q --no-check-certificate -O - https://raw.github.com/colinmollenhour/modman/master/modman-installer)
+
+        bash < <(wget -q --no-check-certificate -O - https://raw.github.com/colinmollenhour/modman/master/modman-installer)
+
 2) copy to PATH:
-cp modman /usr/bin/local
 
-modman --help
-should work
+        cp modman /usr/bin/local
+       
+3) then this should work:
 
+        modman --help
+        
 ## Install profiler
 
-Once the module is installed, if changes are made to the modman file you should run:
-modman deploy SE_Profiler
+Clone this repo in the .modman folder of your wwwroot (this is a hidden folder).
+Name it SE_Profiler
+
+        cd .modman
+        git clone git@github.com:RobinBrackez/SE_Profiler.git ./SE_Profiler
+
+Then run modman to copy the files into the right directories of your project
+
+        modman deploy SE_Profiler
+        
+To **uninstall**, you can do undeploy:
+
+        modman undeploy SE_Profiler
+        
+Then remove the gitrepo from the .modman folder.
 
 ### Settings to make it work
 
@@ -57,11 +74,12 @@ and that only works without full page cache (or just the first page load).
 
 If you get this error:
 
-- Warning: include(): Filename cannot be empty  in app/code/core/Mage/Core/Block/Template.php on line 241
+> Warning: include(): Filename cannot be empty  in app/code/core/Mage/Core/Block/Template.php on line 241
 
 It means you must enable symlinks.
 
-in local.xml make sure <profiler> has value 1. Otherwise the sql profiler won't work.
+in local.xml make sure <profiler> tag has value 1. 
+Otherwise the sql profiler won't work. If there is no <profiler> tag, add it.
 
         <resources>
             <default_setup>
@@ -75,7 +93,9 @@ Clear cache after this
 There are certainly situations where the profiler won't work as expected. This is because Magento installations
 differ from each other and your installation may have custom changes that this toolbar doesn't know about.
 
-Certainly features like SOLR, auto add to cart and front-end/backend-links could fail, depending on your installation.  
+Certainly features like SOLR, auto add to cart and front-end/backend-links could fail, depending on your installation.
+
+Check if profiles.css and profiler.js doesn't return a 404. In certain situations, it can be in the incorrect folder.  
 
 ## SE_ProfilerSeSolrsearch install
 
@@ -87,3 +107,5 @@ If the module SE_Solrsearch exists, edit the SE_ProfilerSeSolrSearch.xml file an
 I stole code (actually, the entire toolbar layout) from the Laravel 3 profiler project.
 
 I took various bits from StackOverflow.
+
+I did the rest myself.
